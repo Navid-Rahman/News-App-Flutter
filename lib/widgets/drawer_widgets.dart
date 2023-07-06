@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
@@ -26,32 +27,37 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
+                  const Flexible(
                     child: Image(
                       image: AssetImage('assets/images/newspaper.png'),
                       height: 60,
                       width: 60,
                     ),
                   ),
-                  VerticalSpacing(20),
+                  const VerticalSpacing(20),
                   Flexible(
                     child: Text(
                       'News App',
+                      style: GoogleFonts.lobster(
+                          textStyle: const TextStyle(
+                        fontSize: 20,
+                        letterSpacing: 0.5,
+                      )),
                     ),
                   ),
                 ],
               ),
             ),
             const VerticalSpacing(20),
-            ListTiles(
+            ListTilesWidget(
               label: "Home",
               function: () {},
               icon: Icons.home_rounded,
             ),
-            ListTiles(
+            ListTilesWidget(
               label: "Bookmarks",
               function: () {},
               icon: Icons.bookmark_rounded,
@@ -62,12 +68,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             SwitchListTile(
               title: Text(
                 themeState.getDarkTheme ? 'Dark' : 'Light',
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
               ),
               secondary: Icon(
-                themeState.getDarkTheme
-                    ? Icons.dark_mode_outlined
-                    : Icons.light_mode_outlined,
-                color: Theme.of(context).colorScheme.secondary,
+                themeState.getDarkTheme ? Icons.dark_mode : Icons.light_mode,
               ),
               onChanged: (bool value) {
                 setState(() {
@@ -83,8 +89,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 }
 
-class ListTiles extends StatelessWidget {
-  const ListTiles({
+class ListTilesWidget extends StatelessWidget {
+  const ListTilesWidget({
     super.key,
     required this.label,
     required this.function,
@@ -98,7 +104,10 @@ class ListTiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon),
+      leading: Icon(
+        icon,
+        color: Theme.of(context).colorScheme.secondary,
+      ),
       title: Text(
         label,
         style: const TextStyle(
