@@ -74,6 +74,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
               secondary: Icon(
                 themeState.getDarkTheme ? Icons.dark_mode : Icons.light_mode,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               onChanged: (bool value) {
                 setState(() {

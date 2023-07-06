@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
 import 'package:newsapp_flutter/services/utils.dart';
+import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
+import 'package:newsapp_flutter/widgets/taps.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var newsType = NewsType.allNews;
+
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
@@ -42,7 +45,50 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         drawer: const DrawerWidget(),
-        body: Container(),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  TapsWidget(
+                    text: 'All News',
+                    color: newsType == NewsType.allNews
+                        ? Theme.of(context).cardColor
+                        : Colors.transparent,
+                    function: () {
+                      if (newsType == NewsType.allNews) {
+                        return;
+                      }
+                      setState(() {
+                        newsType = NewsType.allNews;
+                      });
+                    },
+                    fontsize: newsType == NewsType.allNews ? 20 : 16,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  TapsWidget(
+                    text: 'Top Trending',
+                    color: newsType == NewsType.topTrending
+                        ? Theme.of(context).cardColor
+                        : Colors.transparent,
+                    function: () {
+                      if (newsType == NewsType.topTrending) {
+                        return;
+                      }
+                      setState(() {
+                        newsType = NewsType.topTrending;
+                      });
+                    },
+                    fontsize: newsType == NewsType.topTrending ? 20 : 16,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
