@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:newsapp_flutter/provider/dark_theme_provider.dart';
 import 'package:newsapp_flutter/screens/home_screen.dart';
 import 'package:newsapp_flutter/utils/theme_data.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
