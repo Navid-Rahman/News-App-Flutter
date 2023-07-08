@@ -25,8 +25,9 @@ class Styles {
             brightness: isDarkTheme ? Brightness.dark : Brightness.light,
           )
           .copyWith(
-              background:
-                  isDarkTheme ? darkBackgroundColor : lightBackgroundColor),
+            background:
+                isDarkTheme ? darkBackgroundColor : lightBackgroundColor,
+          ),
     );
   }
 }
