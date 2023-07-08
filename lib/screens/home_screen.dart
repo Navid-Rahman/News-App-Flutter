@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
+import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
   var newsType = NewsType.allNews;
+  String sortBy = SortByName.publishedAt.name;
 
   Widget paginationButtons({
     required Function function,
@@ -39,11 +41,31 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  List<DropdownMenuItem<String>> get dropDownItems {
+    List<DropdownMenuItem<String>> menuItem = [
+      DropdownMenuItem(
+        value: SortByName.relevancy.name,
+        child: Text(SortByName.relevancy.name),
+      ),
+      DropdownMenuItem(
+        value: SortByName.popularity.name,
+        child: Text(SortByName.popularity.name),
+      ),
+      DropdownMenuItem(
+        value: SortByName.publishedAt.name,
+        child: Text(SortByName.publishedAt.name),
+      ),
+    ];
+
+    return menuItem;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
     return SafeArea(
       child: Scaffold(
+        /// Appbar section
         appBar: AppBar(
           elevation: 1,
           iconTheme: IconThemeData(color: color),
@@ -68,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+
+        /// App drawer menu section
         drawer: const DrawerWidget(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -112,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const VerticalSpacing(10),
 
-              /// Pagination
+              /// Pagination section
               newsType == NewsType.topTrending
                   ? Container()
                   : SizedBox(
@@ -173,6 +197,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+
+              const VerticalSpacing(10),
+
+              /// Dropdown menu
+              newsType == NewsType.topTrending
+                  ? Container()
+                  : Align(
+                      alignment: Alignment.topRight,
+                      child: Material(
+                        color: Theme.of(context).cardColor,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: DropdownButton(
+                            value: sortBy,
+                            items: dropDownItems,
+                            onChanged: (
+                              String? value,
+                            ) {},
+                          ),
+                        ),
+                      ),
+                    ),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return const ArticlesWidget();
+                  },
+                ),
+              ),
             ],
           ),
         ),
