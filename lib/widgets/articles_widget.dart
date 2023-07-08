@@ -57,7 +57,10 @@ class ArticlesWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Title' * 10,
+                            'Title' * 100,
+                            maxLines: 2,
+                            textAlign: TextAlign.justify,
+                            overflow: TextOverflow.ellipsis,
                             style: smallTextStyle,
                           ),
                           const VerticalSpacing(10),
@@ -68,17 +71,24 @@ class ArticlesWidget extends StatelessWidget {
                               style: smallTextStyle,
                             ),
                           ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.link,
-                                  color: Colors.blueAccent,
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.link,
+                                    color: Colors.blueAccent,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
+                                Text(
+                                  '20-02-2023' * 3,
+                                  maxLines: 1,
+                                  style: smallTextStyle,
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     )

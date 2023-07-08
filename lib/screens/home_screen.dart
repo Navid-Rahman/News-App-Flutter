@@ -220,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
+              /// Articles Widget section
               Expanded(
                 child: ListView.builder(
                   itemCount: 20,
