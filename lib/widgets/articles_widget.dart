@@ -46,7 +46,7 @@ class ArticlesWidget extends StatelessWidget {
                           width: size.height * 0.12,
                           boxFit: BoxFit.fill,
                           imageUrl:
-                              'https://i0.wp.com/www.dobitaobyte.com.br/wp-content/uploads/2016/02/no_image.png?ssl=1'),
+                              'https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1'),
                     ),
                     const SizedBox(
                       width: 10,

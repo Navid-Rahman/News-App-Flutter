@@ -5,7 +5,6 @@ import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
-import 'package:newsapp_flutter/widgets/loading_widget.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
 import 'package:newsapp_flutter/widgets/top_tending.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
@@ -233,6 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
+
+              /// Top Trending Widget Section
               if (newsType == NewsType.topTrending)
                 SizedBox(
                   height: size.height * 0.6,
