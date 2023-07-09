@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetailWebview extends StatefulWidget {
   const NewsDetailWebview({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class NewsDetailWebview extends StatefulWidget {
 
 class _NewsDetailWebviewState extends State<NewsDetailWebview> {
   late InAppWebViewController inAppWebViewController;
+  final url = 'https://www.prothomalo.com/bangladesh/x1aqd70ru7';
 
   double _progress = 0;
 
@@ -69,7 +71,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
                 title: const Text('Share'),
                 onTap: () {
                   try {
-                    Share.share('url', subject: 'Look what I made!');
+                    Share.share(url, subject: 'Look what I made!');
                   } catch (error) {
                     developer.log(error.toString());
                   }
@@ -79,7 +81,11 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               ListTile(
                 leading: const Icon(Icons.open_in_browser),
                 title: const Text('Open in browser'),
-                onTap: () {},
+                onTap: () async {
+                  if (!await launchUrl(Uri.parse(url))) {
+                    throw Exception('Could not launch $url');
+                  }
+                },
               ),
 
               ListTile(
@@ -149,7 +155,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               InAppWebView(
                 initialUrlRequest: URLRequest(
                   url: Uri.parse(
-                    'https://www.prothomalo.com/bangladesh/x1aqd70ru7',
+                    url,
                   ),
                 ),
                 onWebViewCreated: (InAppWebViewController controller) {
