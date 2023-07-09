@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapp_flutter/screens/search_screen.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/articles_widget.dart';
@@ -8,6 +9,7 @@ import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
 import 'package:newsapp_flutter/widgets/top_tending.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -85,9 +87,20 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+
+          /// Search button
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: const SearchScreen(),
+                      inheritTheme: true,
+                      ctx: context),
+                );
+              },
               icon: const Icon(
                 Icons.search,
               ),
@@ -163,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             flex: 2,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: 5,
+                              itemCount: 6,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
