@@ -6,6 +6,7 @@ import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
 import 'package:newsapp_flutter/widgets/loading_widget.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
+import 'package:newsapp_flutter/widgets/top_tending.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -213,16 +214,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: DropdownButton(
                             value: sortBy,
                             items: dropDownItems,
-                            onChanged: (
-                              String? value,
-                            ) {},
+                            onChanged: (String? value) {},
                           ),
                         ),
                       ),
                     ),
 
               /// Articles Widget section
-              const LoadingWidget(),
+              if (newsType == NewsType.allNews)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 20,
+                    itemBuilder: (context, index) {
+                      return const ArticlesWidget();
+                    },
+                  ),
+                ),
+              if (newsType == NewsType.topTrending) const TopTrendingWidget(),
             ],
           ),
         ),
