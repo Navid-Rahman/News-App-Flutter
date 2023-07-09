@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapp_flutter/services/utils.dart';
@@ -65,6 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
+
+    Size size = Utils(context).getScreenSize;
     return SafeArea(
       child: Scaffold(
         /// Appbar section
@@ -230,7 +233,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-              if (newsType == NewsType.topTrending) const TopTrendingWidget(),
+              if (newsType == NewsType.topTrending)
+                SizedBox(
+                  height: size.height * 0.6,
+                  child: Swiper(
+                    layout: SwiperLayout.STACK,
+                    autoplay: true,
+                    autoplayDelay: 3000,
+                    itemWidth: size.width * 0.9,
+                    viewportFraction: 0.9,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return const TopTrendingWidget();
+                    },
+                  ),
+                ),
             ],
           ),
         ),
