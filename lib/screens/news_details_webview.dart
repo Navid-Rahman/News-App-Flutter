@@ -5,6 +5,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NewsDetailWebview extends StatefulWidget {
   const NewsDetailWebview({Key? key}) : super(key: key);
@@ -66,7 +67,13 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               ListTile(
                 leading: const Icon(Icons.share),
                 title: const Text('Share'),
-                onTap: () {},
+                onTap: () {
+                  try {
+                    Share.share('url', subject: 'Look what I made!');
+                  } catch (error) {
+                    developer.log(error.toString());
+                  }
+                },
               ),
 
               ListTile(
