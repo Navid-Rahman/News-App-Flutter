@@ -186,16 +186,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? Colors.blue
                                         : Theme.of(context).cardColor,
                                     child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            currentPageIndex = index;
-                                          });
-                                        },
-                                        child: Center(
-                                            child: Padding(
+                                      onTap: () {
+                                        setState(() {
+                                          currentPageIndex = index;
+                                        });
+                                      },
+                                      child: Center(
+                                        child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('${index + 1}'),
-                                        ))),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
