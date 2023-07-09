@@ -15,7 +15,7 @@ class ArticlesWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Material(
         color: Theme.of(context).cardColor,
-        child: InkWell(
+        child: GestureDetector(
           onTap: () {},
           child: Stack(
             children: [
@@ -67,7 +67,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '🕒 Reading time',
+                              '⏱️ Reading time',
                               style: smallTextStyle,
                             ),
                           ),
