@@ -1,5 +1,8 @@
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 
@@ -75,7 +78,15 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               ListTile(
                 leading: const Icon(Icons.refresh),
                 title: const Text('Refresh'),
-                onTap: () {},
+                onTap: () async {
+                  try {
+                    await inAppWebViewController.reload();
+                  } catch (error) {
+                    developer.log("Error occured $error");
+                  } finally {
+                    Navigator.pop(context);
+                  }
+                },
               ),
             ],
           ),
@@ -131,7 +142,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               InAppWebView(
                 initialUrlRequest: URLRequest(
                   url: Uri.parse(
-                    'https://techcrunch.com/2022/06/17/marc-lores-food-delivery-startup-wonder-raises-350m-3-5b-valuation/',
+                    'https://www.prothomalo.com/bangladesh/x1aqd70ru7',
                   ),
                 ),
                 onWebViewCreated: (InAppWebViewController controller) {
