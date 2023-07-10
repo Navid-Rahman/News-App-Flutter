@@ -156,8 +156,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 const VerticalSpacing(
                   10,
                 ),
-                TextContent(
-                  label: "content " * 12,
+                const TextContent(
+                  label:
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In facilisis est sit amet aliquam gravida. Curabitur pretium sapien magna, et pretium odio tristique vitae. Ut molestie nunc eget ante fringilla, quis maximus mauris condimentum. Ut eu arcu cursus, gravida felis eget, cursus risus. Integer in mollis dui. Donec aliquam ullamcorper tincidunt. Aenean bibendum enim non tempor molestie. Ut egestas, nisl a bibendum malesuada, mauris turpis commodo lectus, eu vestibulum nibh lacus nec urna. Vivamus fermentum in nulla eget ullamcorper. Nulla rutrum varius feugiat. Donec sem quam, semper condimentum sodales finibus, tempor sed felis. Nulla neque justo, ullamcorper quis euismod id, vestibulum non lectus. Proin augue neque, imperdiet vitae metus ut, tempor cursus nisl. Vestibulum sit amet libero est. Sed viverra nunc ut posuere pretium.",
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
@@ -187,7 +188,10 @@ class TextContent extends StatelessWidget {
     return SelectableText(
       label,
       textAlign: TextAlign.justify,
-      style: GoogleFonts.roboto(fontSize: fontSize, fontWeight: fontWeight),
+      style: GoogleFonts.roboto(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      ),
     );
   }
 }
