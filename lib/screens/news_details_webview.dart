@@ -2,8 +2,10 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:newsapp_flutter/services/error_dialog.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 
@@ -19,40 +21,6 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
   final url = 'https://www.prothomalo.com/bangladesh/x1aqd70ru7';
 
   double _progress = 0;
-
-  /// Error Dialog
-  Future<void> errorDialog() async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: const Text("Error message."),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.dangerous_outlined,
-                color: Colors.red,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('An error occured'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text('Ok'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   /// More actions button
   Future<void> _showModalSheetFunction() async {
@@ -103,13 +71,13 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               ListTile(
                 leading: const Icon(Icons.share),
                 title: const Text('Share'),
-                onTap: () {
-                  errorDialog();
-                  // try {
-                  //   Share.share(url, subject: 'Look what I made!');
-                  // } catch (error) {
-                  //   developer.log(error.toString());
-                  // }
+                onTap: () async {
+                  try {
+                    await Share.share(url, subject: 'Look what I made!');
+                  } catch (error) {
+                    ErrorDialog.errorDialog(
+                        errorMessage: error.toString(), context: context);
+                  }
                 },
               ),
 

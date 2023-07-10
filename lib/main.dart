@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:newsapp_flutter/provider/dark_theme_provider.dart';
@@ -45,9 +46,12 @@ class _MyAppState extends State<MyApp> {
       ) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'News App',
           theme: Styles.themeData(themeProvider.getDarkTheme, context),
           home: const HomeScreen(),
+          routes: {
+            NewsDetailsScreen.routeName: (context) => const NewsDetailsScreen(),
+          },
         );
       }),
     );
