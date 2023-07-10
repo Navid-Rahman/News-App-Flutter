@@ -1,14 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+
 import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:newsapp_flutter/screens/news_details_webview.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  const ArticlesWidget({super.key});
+  const ArticlesWidget({
+    Key? key,
+    required this.imageUrl,
+  }) : super(key: key);
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +54,11 @@ class ArticlesWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: FancyShimmerImage(
-                          height: size.height * 0.12,
-                          width: size.height * 0.12,
-                          boxFit: BoxFit.fill,
-                          imageUrl:
-                              'https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1'),
+                        height: size.height * 0.12,
+                        width: size.height * 0.12,
+                        boxFit: BoxFit.fill,
+                        imageUrl: imageUrl,
+                      ),
                     ),
                     const SizedBox(
                       width: 10,

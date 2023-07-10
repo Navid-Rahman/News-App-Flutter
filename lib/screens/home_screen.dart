@@ -1,6 +1,12 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:newsapp_flutter/models/news_model.dart';
+import 'package:newsapp_flutter/services/news_api.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:newsapp_flutter/screens/search_screen.dart';
@@ -23,6 +29,18 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
   var newsType = NewsType.allNews;
   String sortBy = SortByName.publishedAt.name;
+
+  List<NewsModel> newsList = [];
+  @override
+  void didChangeDependencies() {
+    getNewsList();
+    super.didChangeDependencies();
+  }
+
+  Future<void> getNewsList() async {
+    newsList = await NewsApiServices.getAllNews();
+    setState(() {});
+  }
 
   Widget paginationButtons({
     required Function function,
@@ -242,9 +260,11 @@ class _HomeScreenState extends State<HomeScreen> {
               if (newsType == NewsType.allNews)
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 20,
+                    itemCount: newsList.length,
                     itemBuilder: (context, index) {
-                      return const ArticlesWidget();
+                      return ArticlesWidget(
+                        imageUrl: newsList[index].urlToImage,
+                      );
                     },
                   ),
                 ),

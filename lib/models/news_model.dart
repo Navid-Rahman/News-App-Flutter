@@ -29,8 +29,8 @@ class NewsModel {
   ///fromJson factory constructor; in-order to read the json data
   factory NewsModel.fromJson(dynamic json) {
     return NewsModel(
-      authorName: json["author"],
-      content: json["content"],
+      authorName: json["author"] ?? "",
+      content: json["content"] ?? "",
       dateToShow: "dateToShow",
       description: json["description"],
       newsId: json["source"]["id"] ?? "",
@@ -39,7 +39,8 @@ class NewsModel {
       sourceName: json["source"]["name"],
       title: json["title"],
       url: json["url"],
-      urlToImage: json["urlToImage"],
+      urlToImage: json["urlToImage"] ??
+          "'https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
     );
   }
 
