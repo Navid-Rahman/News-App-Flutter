@@ -15,7 +15,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
 
-    Size size = Utils(context).getScreenSize;
+    // Size size = Utils(context).getScreenSize;
     return Scaffold(
       appBar: AppBar(
         elevation: 1,

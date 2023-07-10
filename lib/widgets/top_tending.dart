@@ -1,8 +1,11 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
-import '../services/utils.dart';
+import 'package:newsapp_flutter/screens/news_details_screen.dart';
+import 'package:newsapp_flutter/screens/news_details_webview.dart';
+import 'package:newsapp_flutter/services/utils.dart';
 
 class TopTrendingWidget extends StatelessWidget {
   const TopTrendingWidget({Key? key}) : super(key: key);
@@ -17,7 +20,9 @@ class TopTrendingWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12.0),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, NewsDetailsScreen.routeName);
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.start,
@@ -43,11 +48,22 @@ class TopTrendingWidget extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () async {},
-                      icon: Icon(
-                        Icons.link,
-                        color: color,
-                      )),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const NewsDetailWebview(),
+                          type: PageTransitionType.rightToLeft,
+                          inheritTheme: true,
+                          ctx: context,
+                        ),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.link,
+                      color: color,
+                    ),
+                  ),
                   const Spacer(),
                   SelectableText(
                     "20-20-2022",

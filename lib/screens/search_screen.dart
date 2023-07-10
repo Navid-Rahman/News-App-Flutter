@@ -35,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = Utils(context).getScreenSize;
+    // Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
     return SafeArea(
       child: GestureDetector(

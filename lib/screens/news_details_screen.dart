@@ -125,7 +125,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
           const VerticalSpacing(20),
