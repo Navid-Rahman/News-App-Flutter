@@ -2,11 +2,10 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetailWebview extends StatefulWidget {
   const NewsDetailWebview({Key? key}) : super(key: key);
@@ -21,6 +20,41 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
 
   double _progress = 0;
 
+  /// Error Dialog
+  Future<void> errorDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: const Text("Error message."),
+          title: const Row(
+            children: [
+              Icon(
+                Icons.dangerous_outlined,
+                color: Colors.red,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text('An error occured'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// More actions button
   Future<void> _showModalSheetFunction() async {
     await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -70,11 +104,12 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
                 leading: const Icon(Icons.share),
                 title: const Text('Share'),
                 onTap: () {
-                  try {
-                    Share.share(url, subject: 'Look what I made!');
-                  } catch (error) {
-                    developer.log(error.toString());
-                  }
+                  errorDialog();
+                  // try {
+                  //   Share.share(url, subject: 'Look what I made!');
+                  // } catch (error) {
+                  //   developer.log(error.toString());
+                  // }
                 },
               ),
 

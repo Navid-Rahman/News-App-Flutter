@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           paginationButtons(
                             function: () {
-                              if (currentPageIndex == 4) {
+                              if (currentPageIndex == 5) {
                                 return;
                               }
                               setState(() {
