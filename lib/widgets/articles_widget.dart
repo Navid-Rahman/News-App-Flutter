@@ -1,16 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+
 import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/provider/news_provider.dart';
-import 'package:page_transition/page_transition.dart';
-
 import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:newsapp_flutter/screens/news_details_webview.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-import 'package:provider/provider.dart';
 
 class ArticlesWidget extends StatelessWidget {
   const ArticlesWidget({
@@ -67,11 +67,14 @@ class ArticlesWidget extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: FancyShimmerImage(
-                        height: size.height * 0.12,
-                        width: size.height * 0.12,
-                        boxFit: BoxFit.fill,
-                        imageUrl: newsModelProvider.urlToImage,
+                      child: Hero(
+                        tag: newsModelProvider.publishedAt,
+                        child: FancyShimmerImage(
+                          height: size.height * 0.12,
+                          width: size.height * 0.12,
+                          boxFit: BoxFit.fill,
+                          imageUrl: newsModelProvider.urlToImage,
+                        ),
                       ),
                     ),
                     const SizedBox(

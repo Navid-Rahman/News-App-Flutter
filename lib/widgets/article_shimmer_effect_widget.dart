@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 import 'package:shimmer/shimmer.dart';
+
+import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 
 class ArticleShimmerEffectWidget extends StatelessWidget {
   const ArticleShimmerEffectWidget({

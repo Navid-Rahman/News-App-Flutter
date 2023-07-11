@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:newsapp_flutter/models/news_model.dart';
+import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
+import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/empty_screen.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -14,6 +18,8 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late final FocusNode focusNode;
+  bool isSearching = false;
+  List<NewsModel>? searchList = [];
 
   late final TextEditingController _searchTextController;
 
@@ -37,6 +43,8 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     // Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
+
     return SafeArea(
       child: GestureDetector(
         onTap: () {
@@ -66,7 +74,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         autofocus: true,
                         textInputAction: TextInputAction.search,
                         keyboardType: TextInputType.text,
-                        onEditingComplete: () {},
+                        onEditingComplete: () async {
+                          searchList = await newsProvider.searchNewsProvider(
+                              query: _searchTextController.text);
+                          isSearching = true;
+                          focusNode.unfocus();
+                          setState(() {});
+                        },
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(bottom: 8 / 5),
                           focusedBorder: InputBorder.none,
@@ -79,6 +93,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               onTap: () {
                                 _searchTextController.clear();
                                 focusNode.unfocus();
+                                isSearching = false;
+                                // searchList = [];
+                                searchList!.clear();
                                 setState(() {});
                               },
                               child: const Icon(
@@ -95,38 +112,65 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               const VerticalSpacing(20),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MasonryGridView.count(
-                    itemCount: searchKeywords.length,
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        child: Container(
-                          margin: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: color),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              searchKeywords[index],
+              if (!isSearching && searchList!.isEmpty)
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MasonryGridView.count(
+                      itemCount: searchKeywords.length,
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 4,
+                      crossAxisSpacing: 4,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            searchList = await newsProvider.searchNewsProvider(
+                                query: _searchTextController.text);
+                            isSearching = true;
+
+                            _searchTextController.text = searchKeywords[index];
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: color),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: FittedBox(
+                                  child: Text(
+                                    searchKeywords[index],
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (isSearching && searchList!.isEmpty)
+                const Expanded(
+                  child: EmptyNewsWidget(
+                    text: 'Oops! Search result not found.',
+                    imagePath: 'assets/images/search.png',
+                  ),
+                ),
+              if (searchList != null && searchList!.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: searchList!.length,
+                    itemBuilder: (ctx, index) {
+                      return ChangeNotifierProvider.value(
+                        value: searchList![index],
+                        child: const ArticlesWidget(),
                       );
                     },
                   ),
                 ),
-              ),
-              const EmptyNewsWidget(
-                text: 'Oops! Search result not found.',
-                imagePath: 'assets/images/search.png',
-              ),
             ],
           ),
         ),
