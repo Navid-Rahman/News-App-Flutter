@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,11 @@ import 'package:newsapp_flutter/screens/news_details_webview.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 
 class TopTrendingWidget extends StatelessWidget {
-  const TopTrendingWidget({Key? key}) : super(key: key);
+  const TopTrendingWidget({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,9 @@ class TopTrendingWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         PageTransition(
-                          child: const NewsDetailWebview(),
+                          child: NewsDetailWebview(
+                            url: url,
+                          ),
                           type: PageTransitionType.rightToLeft,
                           inheritTheme: true,
                           ctx: context,

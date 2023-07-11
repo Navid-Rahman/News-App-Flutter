@@ -13,9 +13,17 @@ class ArticlesWidget extends StatelessWidget {
   const ArticlesWidget({
     Key? key,
     required this.imageUrl,
+    required this.title,
+    required this.url,
+    required this.dateToShow,
+    required this.readingTime,
   }) : super(key: key);
 
   final String imageUrl;
+  final String title;
+  final String url;
+  final String dateToShow;
+  final String readingTime;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +77,7 @@ class ArticlesWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Title' * 100,
+                            title,
                             maxLines: 2,
                             textAlign: TextAlign.justify,
                             overflow: TextOverflow.ellipsis,
@@ -79,7 +87,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '⏱️ Reading time',
+                              '⏱️ $readingTime',
                               style: smallTextStyle,
                             ),
                           ),
@@ -92,7 +100,9 @@ class ArticlesWidget extends StatelessWidget {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
-                                          child: const NewsDetailWebview(),
+                                          child: NewsDetailWebview(
+                                            url: url,
+                                          ),
                                           inheritTheme: true,
                                           ctx: context),
                                     );
@@ -103,7 +113,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '20-02-2023' * 3,
+                                  dateToShow,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 ),

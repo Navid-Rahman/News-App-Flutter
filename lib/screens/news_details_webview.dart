@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,12 @@ import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 
 class NewsDetailWebview extends StatefulWidget {
-  const NewsDetailWebview({Key? key}) : super(key: key);
+  const NewsDetailWebview({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
+
+  final String url;
 
   @override
   State<NewsDetailWebview> createState() => _NewsDetailWebviewState();
@@ -18,7 +24,6 @@ class NewsDetailWebview extends StatefulWidget {
 
 class _NewsDetailWebviewState extends State<NewsDetailWebview> {
   late InAppWebViewController inAppWebViewController;
-  final url = 'https://www.prothomalo.com/bangladesh/x1aqd70ru7';
 
   double _progress = 0;
 
@@ -73,7 +78,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
                 title: const Text('Share'),
                 onTap: () async {
                   try {
-                    await Share.share(url, subject: 'Look what I made!');
+                    await Share.share(widget.url, subject: 'Look what I made!');
                   } catch (error) {
                     ErrorDialog.errorDialog(
                         errorMessage: error.toString(), context: context);
@@ -85,8 +90,8 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
                 leading: const Icon(Icons.open_in_browser),
                 title: const Text('Open in browser'),
                 onTap: () async {
-                  if (!await launchUrl(Uri.parse(url))) {
-                    throw Exception('Could not launch $url');
+                  if (!await launchUrl(Uri.parse(widget.url))) {
+                    throw Exception('Could not launch ${widget.url}');
                   }
                 },
               ),
@@ -139,7 +144,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
             elevation: 0,
             centerTitle: true,
             title: Text(
-              'URL',
+              widget.url,
               style: TextStyle(
                 color: color,
               ),
@@ -158,7 +163,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
               InAppWebView(
                 initialUrlRequest: URLRequest(
                   url: Uri.parse(
-                    url,
+                    widget.url,
                   ),
                 ),
                 onWebViewCreated: (InAppWebViewController controller) {

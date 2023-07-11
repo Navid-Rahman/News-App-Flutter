@@ -5,15 +5,17 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:newsapp_flutter/models/news_model.dart';
-import 'package:newsapp_flutter/services/news_api.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/screens/search_screen.dart';
+import 'package:newsapp_flutter/services/news_api.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
+import 'package:newsapp_flutter/widgets/empty_screen.dart';
+import 'package:newsapp_flutter/widgets/loading_widget.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
 import 'package:newsapp_flutter/widgets/top_tending.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
@@ -27,19 +29,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
+  List<NewsModel> newsList = [];
   var newsType = NewsType.allNews;
   String sortBy = SortByName.publishedAt.name;
 
-  List<NewsModel> newsList = [];
   @override
   void didChangeDependencies() {
     getNewsList();
     super.didChangeDependencies();
   }
 
-  Future<void> getNewsList() async {
-    newsList = await NewsApiServices.getAllNews();
-    setState(() {});
+  Future<List<NewsModel>> getNewsList() async {
+    List<NewsModel> newsList = await NewsApiServices.getAllNews();
+    return newsList;
   }
 
   Widget paginationButtons({
@@ -256,35 +258,74 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-              /// Articles Widget section
-              if (newsType == NewsType.allNews)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: newsList.length,
-                    itemBuilder: (context, index) {
-                      return ArticlesWidget(
-                        imageUrl: newsList[index].urlToImage,
-                      );
-                    },
-                  ),
-                ),
+              FutureBuilder<List<NewsModel>>(
+                future: getNewsList(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return newsType == NewsType.allNews
+                        ? LoadingWidget(newsType: newsType)
+                        : Expanded(child: LoadingWidget(newsType: newsType));
+                  } else if (snapshot.hasError) {
+                    return Expanded(
+                      child: EmptyNewsWidget(
+                        text: "An error occured ${snapshot.error}",
+                        imagePath: 'assets/images/no_news.png',
+                      ),
+                    );
+                  } else if (snapshot.data == null) {
+                    return const Expanded(
+                      child: EmptyNewsWidget(
+                        text: 'No news found',
+                        imagePath: 'assets/images/no_news.png',
+                      ),
+                    );
+                  }
 
-              /// Top Trending Widget Section
-              if (newsType == NewsType.topTrending)
-                SizedBox(
-                  height: size.height * 0.6,
-                  child: Swiper(
-                    layout: SwiperLayout.STACK,
-                    autoplay: true,
-                    autoplayDelay: 3000,
-                    itemWidth: size.width * 0.9,
-                    viewportFraction: 0.9,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return const TopTrendingWidget();
-                    },
-                  ),
-                ),
+                  // /// Shimmering effect image
+                  // if (newsType == NewsType.topTrending) {
+                  //   return newsType == NewsType.allNews
+                  //       ? LoadingWidget(newsType: newsType)
+                  //       : Expanded(child: LoadingWidget(newsType: newsType));
+                  // } else {
+                  //   return Expanded(
+                  //       child: EmptyNewsWidget(
+                  //           text: 'text', imagePath: 'no-news.png'));
+                  // }
+
+                  return newsType == NewsType.allNews
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return ArticlesWidget(
+                                imageUrl: snapshot.data![index].urlToImage,
+                                dateToShow: snapshot.data![index].dateToShow,
+                                readingTime:
+                                    snapshot.data![index].readingTimeText,
+                                title: snapshot.data![index].title,
+                                url: snapshot.data![index].url,
+                              );
+                            },
+                          ),
+                        )
+                      : SizedBox(
+                          height: size.height * 0.6,
+                          child: Swiper(
+                            layout: SwiperLayout.STACK,
+                            autoplay: true,
+                            autoplayDelay: 3000,
+                            itemWidth: size.width * 0.9,
+                            viewportFraction: 0.9,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return TopTrendingWidget(
+                                url: snapshot.data![index].url,
+                              );
+                            },
+                          ),
+                        );
+                },
+              ),
             ],
           ),
         ),
