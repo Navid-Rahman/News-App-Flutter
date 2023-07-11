@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:newsapp_flutter/services/fomatted_date.dart';
 import 'package:reading_time/reading_time.dart';
 
 class NewsModel {
@@ -21,24 +22,27 @@ class NewsModel {
     String title = json["title"] ?? "";
     String content = json["content"] ?? "";
     String description = json["description"] ?? "";
+
+    String dateToShow = FormattedDate.formattedDateText(json["publishedAt"]);
+
     return NewsModel(
       authorName: json["author"] ?? "",
       content: content,
-      dateToShow: "dateToShow",
+      dateToShow: dateToShow,
       description: description,
       newsId: json["source"]["id"] ?? "",
-      publishedAt: json["publishedAt"],
+      publishedAt: json["publishedAt"] ?? "",
       readingTimeText: readingTime(title + description + content).msg,
-      sourceName: json["source"]["name"],
+      sourceName: json["source"]["name"] ?? "",
       title: title,
-      url: json["url"],
+      url: json["url"] ?? "",
       urlToImage: json["urlToImage"] ??
           "'https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
     );
   }
 
   String authorName;
-  String content;
+  String content; 
   String dateToShow;
   String description;
   String newsId;
