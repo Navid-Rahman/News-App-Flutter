@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:newsapp_flutter/models/news_model.dart';
@@ -9,25 +10,32 @@ class NewsApiServices {
     // var url = Uri.parse(
     //     'https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=e7d516e675314b9b81eb718fd56b40ed');
 
-    var uri = Uri.https(BASEURL, "v2/everything", {
-      "q": "bitcoin",
-      "pageSize": "5",
-      "domains": "bbc.co.uk,techcrunch.com,engadget.com",
-      // "apiKey": API_KEY,
-    });
+    try {
+      var uri = Uri.https(BASEURL, "v2/everything", {
+        "q": "bitcoin",
+        "pageSize": "5",
+        "domains": "bbc.co.uk,techcrunch.com,engadget.com",
+        // "apiKey": API_KEY,
+      });
 
-    var response = await http.get(uri, headers: {'X-Api-Key': API_KEY});
-    // print('Response status: ${response.statusCode}');
-    // print('Response body: ${response.body}');
+      var response = await http.get(uri, headers: {'X-Api-Key': API_KEY});
+      // print('Response status: ${response.statusCode}');
+      // print('Response body: ${response.body}');
 
-    Map data = jsonDecode(response.body);
-    List newsTempList = [];
+      Map data = jsonDecode(response.body);
+      List newsTempList = [];
+      if (data['code'] != null) {
+        throw HttpException(data['code']);
+      }
 
-    for (var v in data["articles"]) {
-      newsTempList.add(v);
-      // print(v);
-      // print(data['articles'].length.toString());
+      for (var v in data["articles"]) {
+        newsTempList.add(v);
+        // print(v);
+        // print(data['articles'].length.toString());
+      }
+      return NewsModel.newsFromSnapshot(newsTempList);
+    } catch (error) {
+      throw error.toString();
     }
-    return NewsModel.newsFromSnapshot(newsTempList);
   }
 }

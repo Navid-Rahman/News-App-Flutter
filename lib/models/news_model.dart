@@ -23,7 +23,11 @@ class NewsModel {
     String content = json["content"] ?? "";
     String description = json["description"] ?? "";
 
-    String dateToShow = FormattedDate.formattedDateText(json["publishedAt"]);
+    String dateToShow = "";
+
+    if (json["publishedAt"] != null) {
+      dateToShow = FormattedDate.formattedDateText(json["publishedAt"]);
+    }
 
     return NewsModel(
       authorName: json["author"] ?? "",
@@ -42,7 +46,7 @@ class NewsModel {
   }
 
   String authorName;
-  String content; 
+  String content;
   String dateToShow;
   String description;
   String newsId;
