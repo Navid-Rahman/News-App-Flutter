@@ -9,6 +9,7 @@ import 'package:newsapp_flutter/utils/http_exceptions.dart';
 class NewsApiServices {
   static Future<List<NewsModel>> getAllNews({
     required int page,
+    required String sortBy,
   }) async {
     //
     // var url = Uri.parse(
@@ -20,6 +21,7 @@ class NewsApiServices {
         "pageSize": "5",
         "domains": "techcrunch.com",
         "page": page.toString(),
+        "sortBy": sortBy
 
         // "apiKEY": API_KEY
       });

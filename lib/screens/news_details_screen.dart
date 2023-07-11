@@ -2,9 +2,11 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/styles.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
+import 'package:provider/provider.dart';
 
 class NewsDetailsScreen extends StatefulWidget {
   const NewsDetailsScreen({Key? key}) : super(key: key);
@@ -19,6 +21,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
+    final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +32,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         title: Text(
-          "By Author",
+          "By ${currentNews.authorName}",
           textAlign: TextAlign.center,
           style: TextStyle(color: color),
         ),
@@ -49,7 +54,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Title" * 10,
+                  currentNews.title,
                   textAlign: TextAlign.justify,
                   style: titleTextStyle,
                 ),
@@ -57,12 +62,12 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 Row(
                   children: [
                     Text(
-                      "20/20/2015",
+                      currentNews.dateToShow,
                       style: smallTextStyle,
                     ),
                     const Spacer(),
                     Text(
-                      "readingTimeText",
+                      currentNews.readingTimeText,
                       style: smallTextStyle,
                     ),
                   ],
@@ -80,8 +85,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                   child: FancyShimmerImage(
                     boxFit: BoxFit.fill,
                     errorWidget: Image.asset('assets/images/empty_image.png'),
-                    imageUrl:
-                        "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
+                    imageUrl: currentNews.urlToImage,
                   ),
                 ),
               ),
@@ -141,7 +145,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
                 const VerticalSpacing(10),
                 TextContent(
-                  label: "description " * 12,
+                  label: currentNews.description,
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
@@ -156,9 +160,8 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 const VerticalSpacing(
                   10,
                 ),
-                const TextContent(
-                  label:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In facilisis est sit amet aliquam gravida. Curabitur pretium sapien magna, et pretium odio tristique vitae. Ut molestie nunc eget ante fringilla, quis maximus mauris condimentum. Ut eu arcu cursus, gravida felis eget, cursus risus. Integer in mollis dui. Donec aliquam ullamcorper tincidunt. Aenean bibendum enim non tempor molestie. Ut egestas, nisl a bibendum malesuada, mauris turpis commodo lectus, eu vestibulum nibh lacus nec urna. Vivamus fermentum in nulla eget ullamcorper. Nulla rutrum varius feugiat. Donec sem quam, semper condimentum sodales finibus, tempor sed felis. Nulla neque justo, ullamcorper quis euismod id, vestibulum non lectus. Proin augue neque, imperdiet vitae metus ut, tempor cursus nisl. Vestibulum sit amet libero est. Sed viverra nunc ut posuere pretium.",
+                TextContent(
+                  label: currentNews.content,
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
