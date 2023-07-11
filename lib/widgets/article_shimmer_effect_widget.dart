@@ -13,10 +13,10 @@ class ArticleShimmerEffectWidget extends StatelessWidget {
   });
 
   final Color baseShimmerColor;
-  final Color highlightShimmerColor;
-  final Color widgetShimmerColor;
-  final Size size;
   final BorderRadius borderRadius;
+  final Color highlightShimmerColor;
+  final Size size;
+  final Color widgetShimmerColor;
 
   @override
   Widget build(BuildContext context) {

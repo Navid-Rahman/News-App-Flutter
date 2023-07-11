@@ -31,9 +31,41 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var newsType = NewsType.allNews;
   int currentPageIndex = 0;
+  var newsType = NewsType.allNews;
   String sortBy = SortByName.publishedAt.name;
+
+  List<DropdownMenuItem<String>> get dropDownItems {
+    List<DropdownMenuItem<String>> menuItem = [
+      DropdownMenuItem(
+        value: SortByName.relevancy.name,
+        child: Text(SortByName.relevancy.name),
+      ),
+      DropdownMenuItem(
+        value: SortByName.publishedAt.name,
+        child: Text(SortByName.publishedAt.name),
+      ),
+      DropdownMenuItem(
+        value: SortByName.popularity.name,
+        child: Text(SortByName.popularity.name),
+      ),
+    ];
+    return menuItem;
+  }
+
+  Widget paginationButtons({required Function function, required String text}) {
+    return ElevatedButton(
+      onPressed: () {
+        function();
+      },
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue,
+          padding: const EdgeInsets.all(6),
+          textStyle:
+              const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      child: Text(text),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -268,38 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  List<DropdownMenuItem<String>> get dropDownItems {
-    List<DropdownMenuItem<String>> menuItem = [
-      DropdownMenuItem(
-        value: SortByName.relevancy.name,
-        child: Text(SortByName.relevancy.name),
-      ),
-      DropdownMenuItem(
-        value: SortByName.publishedAt.name,
-        child: Text(SortByName.publishedAt.name),
-      ),
-      DropdownMenuItem(
-        value: SortByName.popularity.name,
-        child: Text(SortByName.popularity.name),
-      ),
-    ];
-    return menuItem;
-  }
-
-  Widget paginationButtons({required Function function, required String text}) {
-    return ElevatedButton(
-      onPressed: () {
-        function();
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          padding: const EdgeInsets.all(6),
-          textStyle:
-              const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      child: Text(text),
     );
   }
 }

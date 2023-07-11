@@ -13,6 +13,7 @@ class TopTrendingWidget extends StatelessWidget {
     Key? key,
     required this.url,
   }) : super(key: key);
+
   final String url;
 
   @override

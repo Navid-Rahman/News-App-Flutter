@@ -12,10 +12,10 @@ class TopTrendingLoadingWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Color baseShimmerColor;
+  final BorderRadius borderRadius;
   final Color highlightShimmerColor;
   final Size size;
   final Color widgetShimmerColor;
-  final BorderRadius borderRadius;
 
   @override
   Widget build(BuildContext context) {
