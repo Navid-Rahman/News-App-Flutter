@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapp_flutter/provider/news_provider.dart';
+import 'package:newsapp_flutter/services/error_dialog.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/styles.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NewsDetailsScreen extends StatefulWidget {
   const NewsDetailsScreen({Key? key}) : super(key: key);
@@ -97,7 +99,16 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          try {
+                            await Share.share(currentNews.url,
+                                subject: 'Look what I made!');
+                          } catch (error) {
+                            ErrorDialog.errorDialog(
+                                errorMessage: error.toString(),
+                                context: context);
+                          }
+                        },
                         child: Card(
                           elevation: 10,
                           shape: const CircleBorder(),
