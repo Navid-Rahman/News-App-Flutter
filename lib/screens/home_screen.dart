@@ -6,6 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -189,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-                future: NewsApiServices.getAllNews(),
+                future: newsProvider.fetchAllNews(),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews
@@ -217,13 +219,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                               itemCount: snapshot.data!.length,
                               itemBuilder: (ctx, index) {
-                                return ArticlesWidget(
-                                  imageUrl: snapshot.data![index].urlToImage,
-                                  dateToShow: snapshot.data![index].dateToShow,
-                                  readingTime:
-                                      snapshot.data![index].readingTimeText,
-                                  title: snapshot.data![index].title,
-                                  url: snapshot.data![index].url,
+                                return ChangeNotifierProvider.value(
+                                  value: snapshot.data![index],
+                                  child: const ArticlesWidget(
+                                      // imageUrl: snapshot.data![index].urlToImage,
+                                      // dateToShow: snapshot.data![index].dateToShow,
+                                      // readingTime:
+                                      //     snapshot.data![index].readingTimeText,
+                                      // title: snapshot.data![index].title,
+                                      // url: snapshot.data![index].url,
+                                      ),
                                 );
                               }),
                         )
@@ -274,12 +279,12 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () {
         function();
       },
-      child: Text(text),
       style: ElevatedButton.styleFrom(
-          primary: Colors.blue,
+          backgroundColor: Colors.blue,
           padding: const EdgeInsets.all(6),
           textStyle:
               const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      child: Text(text),
     );
   }
 }

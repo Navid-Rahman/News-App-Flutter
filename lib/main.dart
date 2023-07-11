@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) {
           return themeChangeProvider;
-        })
+        }),
+        ChangeNotifierProvider(
+          create: (_) => NewsProvider(),
+        ),
       ],
       child: Consumer<DarkThemeProvider>(builder: (
         context,
