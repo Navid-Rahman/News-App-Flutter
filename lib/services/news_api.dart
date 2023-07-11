@@ -7,7 +7,9 @@ import 'package:newsapp_flutter/utils/api_constants.dart';
 import 'package:newsapp_flutter/utils/http_exceptions.dart';
 
 class NewsApiServices {
-  static Future<List<NewsModel>> getAllNews() async {
+  static Future<List<NewsModel>> getAllNews({
+    required int page,
+  }) async {
     //
     // var url = Uri.parse(
     //     'https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=');
@@ -16,7 +18,8 @@ class NewsApiServices {
       var uri = Uri.https(BASEURL, "v2/everything", {
         "q": "bitcoin",
         "pageSize": "5",
-        "domains": "techcrunch.com"
+        "domains": "techcrunch.com",
+        "page": page.toString(),
 
         // "apiKEY": API_KEY
       });
