@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
+
 import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/services/utils.dart';
@@ -7,7 +9,6 @@ import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/empty_screen.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

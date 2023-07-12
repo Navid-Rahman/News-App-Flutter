@@ -2,15 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+
 import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/utils/api_constants.dart';
 import 'package:newsapp_flutter/utils/http_exceptions.dart';
 
-class NewsApiServices {
-  static Future<List<NewsModel>> getAllNews({
-    required int page,
-    required String sortBy,
-  }) async {
+class NewsAPiServices {
+  static Future<List<NewsModel>> getAllNews(
+      {required int page, required String sortBy}) async {
     //
     // var url = Uri.parse(
     //     'https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=');
@@ -22,7 +21,6 @@ class NewsApiServices {
         "domains": "techcrunch.com",
         "page": page.toString(),
         "sortBy": sortBy
-
         // "apiKEY": API_KEY
       });
       var response = await http.get(
@@ -51,11 +49,7 @@ class NewsApiServices {
 
   static Future<List<NewsModel>> getTopHeadlines() async {
     try {
-      var uri = Uri.https(BASEURL, "v2/top-headlines", {
-        "country": "us",
-
-        // "apiKEY": API_KEY
-      });
+      var uri = Uri.https(BASEURL, "v2/top-headlines", {'country': 'us'});
       var response = await http.get(
         uri,
         headers: {"X-Api-key": API_KEY},
@@ -80,16 +74,12 @@ class NewsApiServices {
     }
   }
 
-  static Future<List<NewsModel>> searchNews({
-    required String query,
-  }) async {
+  static Future<List<NewsModel>> searchNews({required String query}) async {
     try {
       var uri = Uri.https(BASEURL, "v2/everything", {
         "q": query,
         "pageSize": "10",
         "domains": "techcrunch.com",
-
-        // "apiKEY": API_KEY
       });
       var response = await http.get(
         uri,

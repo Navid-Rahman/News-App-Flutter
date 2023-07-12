@@ -1,29 +1,22 @@
-import 'dart:developer';
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/screens/search_screen.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
+import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
 import 'package:newsapp_flutter/widgets/empty_screen.dart';
+import 'package:newsapp_flutter/widgets/loading_widget.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
+import 'package:newsapp_flutter/widgets/top_tending.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-
-import '../models/news_model.dart';
-import '../services/news_api.dart';
-import '../widgets/articles_widget.dart';
-import '../widgets/loading_widget.dart';
-
-import '../widgets/top_tending.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,9 +26,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var newsType = NewsType.allNews;
   int currentPageIndex = 0;
+  var newsType = NewsType.allNews;
   String sortBy = SortByName.publishedAt.name;
+
+  // Dropdown menu items for sorting options
+  List<DropdownMenuItem<String>> get dropDownItems {
+    List<DropdownMenuItem<String>> menuItem = [
+      DropdownMenuItem(
+        value: SortByName.relevancy.name,
+        child: Text(SortByName.relevancy.name),
+      ),
+      DropdownMenuItem(
+        value: SortByName.publishedAt.name,
+        child: Text(SortByName.publishedAt.name),
+      ),
+      DropdownMenuItem(
+        value: SortByName.popularity.name,
+        child: Text(SortByName.popularity.name),
+      ),
+    ];
+    return menuItem;
+  }
+
+  // Widget for pagination buttons
+  Widget paginationButtons({required Function function, required String text}) {
+    return ElevatedButton(
+      onPressed: () {
+        function();
+      },
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue,
+          padding: const EdgeInsets.all(6),
+          textStyle:
+              const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      child: Text(text),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,69 +102,75 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+
+        // App Drawer widget
         drawer: const DrawerWidget(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            Row(
-              children: [
-                TapsWidget(
-                  text: 'All news',
-                  color: newsType == NewsType.allNews
-                      ? Theme.of(context).cardColor
-                      : Colors.transparent,
-                  function: () {
-                    if (newsType == NewsType.allNews) {
-                      return;
-                    }
-                    setState(() {
-                      newsType = NewsType.allNews;
-                    });
-                  },
-                  fontsize: newsType == NewsType.allNews ? 22 : 14,
-                ),
-                const SizedBox(
-                  width: 25,
-                ),
-                TapsWidget(
-                  text: 'Top trending',
-                  color: newsType == NewsType.topTrending
-                      ? Theme.of(context).cardColor
-                      : Colors.transparent,
-                  function: () {
-                    if (newsType == NewsType.topTrending) {
-                      return;
-                    }
-                    setState(() {
-                      newsType = NewsType.topTrending;
-                    });
-                  },
-                  fontsize: newsType == NewsType.topTrending ? 22 : 14,
-                ),
-              ],
-            ),
-            const VerticalSpacing(10),
-            newsType == NewsType.topTrending
-                ? Container()
-                : SizedBox(
-                    height: kBottomNavigationBarHeight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        paginationButtons(
-                          text: "Prev",
-                          function: () {
-                            if (currentPageIndex == 0) {
-                              return;
-                            }
-                            setState(() {
-                              currentPageIndex -= 1;
-                            });
-                          },
-                        ),
-                        Flexible(
-                          flex: 2,
-                          child: ListView.builder(
+          child: Column(
+            children: [
+              // Row for selecting news type
+              Row(
+                children: [
+                  TapsWidget(
+                    text: 'All news',
+                    color: newsType == NewsType.allNews
+                        ? Theme.of(context).cardColor
+                        : Colors.transparent,
+                    function: () {
+                      if (newsType == NewsType.allNews) {
+                        return;
+                      }
+                      setState(() {
+                        newsType = NewsType.allNews;
+                      });
+                    },
+                    fontsize: newsType == NewsType.allNews ? 22 : 14,
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  TapsWidget(
+                    text: 'Top trending',
+                    color: newsType == NewsType.topTrending
+                        ? Theme.of(context).cardColor
+                        : Colors.transparent,
+                    function: () {
+                      if (newsType == NewsType.topTrending) {
+                        return;
+                      }
+                      setState(() {
+                        newsType = NewsType.topTrending;
+                      });
+                    },
+                    fontsize: newsType == NewsType.topTrending ? 22 : 14,
+                  ),
+                ],
+              ),
+              const VerticalSpacing(10),
+
+              // Pagination buttons for navigating news pages
+              newsType == NewsType.topTrending
+                  ? Container()
+                  : SizedBox(
+                      height: kBottomNavigationBarHeight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          paginationButtons(
+                            text: "Prev",
+                            function: () {
+                              if (currentPageIndex == 0) {
+                                return;
+                              }
+                              setState(() {
+                                currentPageIndex -= 1;
+                              });
+                            },
+                          ),
+                          Flexible(
+                            flex: 2,
+                            child: ListView.builder(
                               itemCount: 5,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
@@ -161,44 +194,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 );
-                              })),
-                        ),
-                        paginationButtons(
-                          text: "Next",
-                          function: () {
-                            if (currentPageIndex == 4) {
-                              return;
-                            }
-                            setState(() {
-                              currentPageIndex += 1;
-                            });
-                            // print('$currentPageIndex index');
-                          },
-                        ),
-                      ],
+                              }),
+                            ),
+                          ),
+                          paginationButtons(
+                            text: "Next",
+                            function: () {
+                              if (currentPageIndex == 4) {
+                                return;
+                              }
+                              setState(() {
+                                currentPageIndex += 1;
+                              });
+                              // print('$currentPageIndex index');
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-            const VerticalSpacing(10),
-            newsType == NewsType.topTrending
-                ? Container()
-                : Align(
-                    alignment: Alignment.topRight,
-                    child: Material(
-                      color: Theme.of(context).cardColor,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: DropdownButton(
+              const VerticalSpacing(10),
+
+              // Sort dropdown for selecting news sorting
+              newsType == NewsType.topTrending
+                  ? Container()
+                  : Align(
+                      alignment: Alignment.topRight,
+                      child: Material(
+                        color: Theme.of(context).cardColor,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: DropdownButton(
                             value: sortBy,
                             items: dropDownItems,
                             onChanged: (String? value) {
                               setState(() {
                                 sortBy = value!;
                               });
-                            }),
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-            FutureBuilder<List<NewsModel>>(
+
+              // Future builder for loading and displaying news data
+              FutureBuilder<List<NewsModel>>(
                 future: newsType == NewsType.topTrending
                     ? newsProvider.fetchTopHeadlines()
                     : newsProvider.fetchAllNews(
@@ -228,20 +267,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   return newsType == NewsType.allNews
                       ? Expanded(
                           child: ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (ctx, index) {
-                                return ChangeNotifierProvider.value(
-                                  value: snapshot.data![index],
-                                  child: const ArticlesWidget(
-                                      // imageUrl: snapshot.data![index].,
-                                      // dateToShow: snapshot.data![index].dateToShow,
-                                      // readingTime:
-                                      //     snapshot.data![index].readingTimeText,
-                                      // title: snapshot.data![index].title,
-                                      // url: snapshot.data![index].url,
-                                      ),
-                                );
-                              }),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (ctx, index) {
+                              return ChangeNotifierProvider.value(
+                                value: snapshot.data![index],
+                                child: const ArticlesWidget(
+                                    // imageUrl: snapshot.data![index].,
+                                    // dateToShow: snapshot.data![index].dateToShow,
+                                    // readingTime:
+                                    //     snapshot.data![index].readingTimeText,
+                                    // title: snapshot.data![index].title,
+                                    // url: snapshot.data![index].url,
+                                    ),
+                              );
+                            },
+                          ),
                         )
                       : SizedBox(
                           height: size.height * 0.6,
@@ -262,43 +302,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ),
                         );
-                })),
-            //  LoadingWidget(newsType: newsType),
-          ]),
+                }),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-
-  List<DropdownMenuItem<String>> get dropDownItems {
-    List<DropdownMenuItem<String>> menuItem = [
-      DropdownMenuItem(
-        value: SortByName.relevancy.name,
-        child: Text(SortByName.relevancy.name),
-      ),
-      DropdownMenuItem(
-        value: SortByName.publishedAt.name,
-        child: Text(SortByName.publishedAt.name),
-      ),
-      DropdownMenuItem(
-        value: SortByName.popularity.name,
-        child: Text(SortByName.popularity.name),
-      ),
-    ];
-    return menuItem;
-  }
-
-  Widget paginationButtons({required Function function, required String text}) {
-    return ElevatedButton(
-      onPressed: () {
-        function();
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          padding: const EdgeInsets.all(6),
-          textStyle:
-              const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      child: Text(text),
     );
   }
 }

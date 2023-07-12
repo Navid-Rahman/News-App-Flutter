@@ -9,11 +9,9 @@ class NewsProvider with ChangeNotifier {
     return newsList;
   }
 
-  Future<List<NewsModel>> fetchAllNews({
-    required int pageIndex,
-    required String sortBy,
-  }) async {
-    newsList = await NewsApiServices.getAllNews(
+  Future<List<NewsModel>> fetchAllNews(
+      {required int pageIndex, required String sortBy}) async {
+    newsList = await NewsAPiServices.getAllNews(
       page: pageIndex,
       sortBy: sortBy,
     );
@@ -21,12 +19,12 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<List<NewsModel>> fetchTopHeadlines() async {
-    newsList = await NewsApiServices.getTopHeadlines();
+    newsList = await NewsAPiServices.getTopHeadlines();
     return newsList;
   }
 
   Future<List<NewsModel>> searchNewsProvider({required String query}) async {
-    newsList = await NewsApiServices.searchNews(query: query);
+    newsList = await NewsAPiServices.searchNews(query: query);
     return newsList;
   }
 
