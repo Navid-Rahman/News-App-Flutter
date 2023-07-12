@@ -82,4 +82,9 @@ class NewsModel with ChangeNotifier {
 
     return data;
   }
+
+  @override
+  String toString() {
+    return "Id: $newsId, Title: $title";
+  }
 }

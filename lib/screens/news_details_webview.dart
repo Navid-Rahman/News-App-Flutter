@@ -103,7 +103,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
                   try {
                     await inAppWebViewController.reload();
                   } catch (error) {
-                    developer.log("Error occured $error");
+                    developer.log("Error occurred $error");
                   } finally {
                     Navigator.pop(context);
                   }
