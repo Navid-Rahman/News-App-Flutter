@@ -1,29 +1,22 @@
-import 'dart:developer';
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/screens/search_screen.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/vars.dart';
+import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/drawer_widgets.dart';
 import 'package:newsapp_flutter/widgets/empty_screen.dart';
+import 'package:newsapp_flutter/widgets/loading_widget.dart';
 import 'package:newsapp_flutter/widgets/taps.dart';
+import 'package:newsapp_flutter/widgets/top_tending.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-
-import '../models/news_model.dart';
-import '../services/news_api.dart';
-import '../widgets/articles_widget.dart';
-import '../widgets/loading_widget.dart';
-
-import '../widgets/top_tending.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

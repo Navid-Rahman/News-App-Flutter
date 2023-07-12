@@ -5,7 +5,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import 'package:newsapp_flutter/models/news_model.dart';
-import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:newsapp_flutter/screens/news_details_webview.dart';
 import 'package:newsapp_flutter/services/utils.dart';
