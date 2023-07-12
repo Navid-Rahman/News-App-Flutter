@@ -56,7 +56,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             const VerticalSpacing(20),
             ListTilesWidget(
               label: "Home",
-              function: () {},
+              function: () {
+                Navigator.pop(context);
+              },
               icon: Icons.home_rounded,
             ),
             ListTilesWidget(

@@ -1,14 +1,15 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/services/error_dialog.dart';
 import 'package:newsapp_flutter/services/utils.dart';
 import 'package:newsapp_flutter/utils/styles.dart';
+import 'package:newsapp_flutter/widgets/text_content.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 class NewsDetailsScreen extends StatefulWidget {
   const NewsDetailsScreen({Key? key}) : super(key: key);
@@ -22,9 +23,16 @@ class NewsDetailsScreen extends StatefulWidget {
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    // Access the color theme from the Utils class
     final color = Utils(context).getColor;
+
+    // Access the NewsProvider instance using Provider
     final newsProvider = Provider.of<NewsProvider>(context);
+
+    // Get the publishedAt argument passed from the previous screen
     final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+
+    // Find the news item using the publishedAt value
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
 
     return Scaffold(
@@ -51,7 +59,10 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 8,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -104,9 +115,11 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       GestureDetector(
                         onTap: () async {
                           try {
+                            // Share the news article
                             await Share.share(currentNews.url,
                                 subject: 'Look what I made!');
                           } catch (error) {
+                            // Show error dialog if sharing fails
                             ErrorDialog.errorDialog(
                                 errorMessage: error.toString(),
                                 context: context);
@@ -126,7 +139,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          // Handle bookmarking functionality
+                        },
                         child: Card(
                           elevation: 10,
                           shape: const CircleBorder(),
@@ -183,31 +198,6 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class TextContent extends StatelessWidget {
-  const TextContent({
-    Key? key,
-    required this.label,
-    required this.fontSize,
-    required this.fontWeight,
-  }) : super(key: key);
-
-  final double fontSize;
-  final FontWeight fontWeight;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return SelectableText(
-      label,
-      textAlign: TextAlign.justify,
-      style: GoogleFonts.roboto(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
       ),
     );
   }

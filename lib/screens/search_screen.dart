@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
+
 import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/services/utils.dart';
@@ -7,7 +9,6 @@ import 'package:newsapp_flutter/utils/vars.dart';
 import 'package:newsapp_flutter/widgets/articles_widget.dart';
 import 'package:newsapp_flutter/widgets/empty_screen.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -53,10 +54,12 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Scaffold(
           body: Column(
             children: [
+              // Search Bar
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
+                    // Back button
                     GestureDetector(
                       onTap: () {
                         focusNode.unfocus();
@@ -75,6 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         textInputAction: TextInputAction.search,
                         keyboardType: TextInputType.text,
                         onEditingComplete: () async {
+                          // Search for news when editing is completed
                           searchList = await newsProvider.searchNewsProvider(
                               query: _searchTextController.text);
                           isSearching = true;
@@ -91,10 +95,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: GestureDetector(
                               onTap: () {
+                                // Clear search text and results
                                 _searchTextController.clear();
                                 focusNode.unfocus();
                                 isSearching = false;
-                                // searchList = [];
                                 searchList!.clear();
                                 setState(() {});
                               },
@@ -113,6 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               const VerticalSpacing(20),
               if (!isSearching && searchList!.isEmpty)
+                // Display suggested keywords when not searching and no search results
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -124,10 +129,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () async {
+                            // Search news based on the tapped keyword
                             searchList = await newsProvider.searchNewsProvider(
                                 query: _searchTextController.text);
                             isSearching = true;
-
                             _searchTextController.text = searchKeywords[index];
                           },
                           child: Container(
@@ -153,6 +158,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               if (isSearching && searchList!.isEmpty)
+                // Display empty search result widget when searching and no results
                 const Expanded(
                   child: EmptyNewsWidget(
                     text: 'Oops! Search result not found.',
@@ -160,13 +166,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               if (searchList != null && searchList!.isNotEmpty)
+                // Display search results
                 Expanded(
                   child: ListView.builder(
                     itemCount: searchList!.length,
                     itemBuilder: (ctx, index) {
-                      return ChangeNotifierProvider.value(
-                        value: searchList![index],
-                        child: const ArticlesWidget(),
+                      return ArticlesWidget(
+                        newsModel: searchList![index],
                       );
                     },
                   ),
