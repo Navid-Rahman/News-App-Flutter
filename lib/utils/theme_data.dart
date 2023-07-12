@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'global_colors.dart';
 
+/// Class defining the styles and theme data for the application.
 class Styles {
+  /// Returns the theme data based on the selected theme mode and context.
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
       scaffoldBackgroundColor:

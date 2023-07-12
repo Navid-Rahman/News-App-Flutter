@@ -187,10 +187,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         });
                                       },
                                       child: Center(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("${index + 1}"),
-                                      )),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${index + 1}"),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -268,17 +269,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? Expanded(
                           child: ListView.builder(
                             itemCount: snapshot.data!.length,
-                            itemBuilder: (ctx, index) {
-                              return ChangeNotifierProvider.value(
-                                value: snapshot.data![index],
-                                child: const ArticlesWidget(
-                                    // imageUrl: snapshot.data![index].,
-                                    // dateToShow: snapshot.data![index].dateToShow,
-                                    // readingTime:
-                                    //     snapshot.data![index].readingTimeText,
-                                    // title: snapshot.data![index].title,
-                                    // url: snapshot.data![index].url,
-                                    ),
+                            itemBuilder: (context, index) {
+                              return ArticlesWidget(
+                                newsModel: snapshot.data![index],
                               );
                             },
                           ),
@@ -286,7 +279,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       : SizedBox(
                           height: size.height * 0.6,
                           child: Swiper(
-                            autoplayDelay: 8000,
+                            autoplayDelay:
+                                10000, // 1 seconds : 1000 milliseconds
                             autoplay: true,
                             itemWidth: size.width * 0.9,
                             layout: SwiperLayout.STACK,

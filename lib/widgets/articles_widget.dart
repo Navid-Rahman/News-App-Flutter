@@ -2,7 +2,6 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 
 import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/screens/news_details_screen.dart';
@@ -14,24 +13,14 @@ import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
 class ArticlesWidget extends StatelessWidget {
   const ArticlesWidget({
     Key? key,
-    // required this.imageUrl,
-    // required this.title,
-    // required this.url,
-    // required this.dateToShow,
-    // required this.readingTime,
+    required this.newsModel,
   }) : super(key: key);
 
-  // final String imageUrl;
-  // final String title;
-  // final String url;
-  // final String dateToShow;
-  // final String readingTime;
+  final NewsModel newsModel;
 
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
-
-    final newsModelProvider = Provider.of<NewsModel>(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -39,8 +28,11 @@ class ArticlesWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, NewsDetailsScreen.routeName,
-                arguments: newsModelProvider.publishedAt);
+            Navigator.pushNamed(
+              context,
+              NewsDetailsScreen.routeName,
+              arguments: newsModel.publishedAt,
+            );
           },
           child: Stack(
             children: [
@@ -67,12 +59,13 @@ class ArticlesWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Hero(
-                        tag: newsModelProvider.publishedAt,
+                        tag: newsModel.publishedAt,
                         child: FancyShimmerImage(
                           height: size.height * 0.12,
                           width: size.height * 0.12,
                           boxFit: BoxFit.fill,
-                          imageUrl: newsModelProvider.urlToImage,
+                          imageUrl: newsModel
+                              .urlToImage, // json['articles']['urlToImage']
                         ),
                       ),
                     ),
@@ -85,7 +78,7 @@ class ArticlesWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            newsModelProvider.title,
+                            newsModel.title,
                             maxLines: 2,
                             textAlign: TextAlign.justify,
                             overflow: TextOverflow.ellipsis,
@@ -95,7 +88,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '⏱️ ${newsModelProvider.readingTimeText}',
+                              '⏱️ ${newsModel.readingTimeText}',
                               style: smallTextStyle,
                             ),
                           ),
@@ -109,7 +102,7 @@ class ArticlesWidget extends StatelessWidget {
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
                                           child: NewsDetailWebview(
-                                            url: newsModelProvider.url,
+                                            url: newsModel.url,
                                           ),
                                           inheritTheme: true,
                                           ctx: context),
@@ -121,7 +114,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  newsModelProvider.dateToShow,
+                                  newsModel.dateToShow,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 ),
