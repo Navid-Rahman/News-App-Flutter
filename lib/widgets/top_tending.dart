@@ -2,13 +2,13 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
+import 'package:newsapp_flutter/models/news_model.dart';
 import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:newsapp_flutter/screens/news_details_webview.dart';
 import 'package:newsapp_flutter/services/utils.dart';
-import 'package:provider/provider.dart';
 
 class TopTrendingWidget extends StatelessWidget {
   const TopTrendingWidget({

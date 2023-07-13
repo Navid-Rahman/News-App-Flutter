@@ -37,13 +37,6 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         text: "you didn't add anything to your bookmarks yet.",
         imagePath: 'assets/images/bookmark.png',
       ),
-
-      // ListView.builder(
-      //   itemCount: 20,
-      //   itemBuilder: (context, index) {
-      //     return const ArticlesWidget();
-      //   },
-      // ),
     );
   }
 }

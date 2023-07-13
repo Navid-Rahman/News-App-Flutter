@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp_flutter/provider/news_provider.dart';
-import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:newsapp_flutter/provider/dark_theme_provider.dart';
+import 'package:newsapp_flutter/provider/news_provider.dart';
 import 'package:newsapp_flutter/screens/home_screen.dart';
+import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:newsapp_flutter/utils/theme_data.dart';
 
 void main() {

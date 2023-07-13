@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:flutter/material.dart';
-import 'package:newsapp_flutter/services/fomatted_date.dart';
 import 'package:reading_time/reading_time.dart';
+
+import 'package:newsapp_flutter/services/fomatted_date.dart';
 
 class NewsModel with ChangeNotifier {
   NewsModel({
@@ -18,14 +20,16 @@ class NewsModel with ChangeNotifier {
     required this.urlToImage,
   });
 
-  ///fromJson factory constructor; in-order to read the json data
+  /// fromJson factory constructor; in-order to read the json data
   factory NewsModel.fromJson(dynamic json) {
+    // Extract necessary fields from the JSON data
     String title = json["title"] ?? "";
     String content = json["content"] ?? "";
     String description = json["description"] ?? "";
 
     String dateToShow = "";
 
+    // Format the publishedAt date for display
     if (json["publishedAt"] != null) {
       dateToShow = FormattedDate.formattedDateText(json["publishedAt"]);
     }
@@ -46,6 +50,7 @@ class NewsModel with ChangeNotifier {
     );
   }
 
+  // Properties of the NewsModel class
   String authorName;
   String content;
   String dateToShow;
@@ -58,13 +63,19 @@ class NewsModel with ChangeNotifier {
   String url;
   String urlToImage;
 
-  /// A getter to return a list of a newsmodel. So, that we don't need to write the previous code again and again to fetch the json data.
+  @override
+  String toString() {
+    return "Id: $newsId, Title: $title";
+  }
+
+  /// A getter to return a list of news models. So, that we don't need to write the previous code again and again to fetch the json data.
   static List<NewsModel> newsFromSnapshot(List newSnapshot) {
     return newSnapshot.map((json) {
       return NewsModel.fromJson(json);
     }).toList();
   }
 
+  // Converts the NewsModel instance to a JSON representation
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
 
@@ -81,10 +92,5 @@ class NewsModel with ChangeNotifier {
     data["urlToImage"] = urlToImage;
 
     return data;
-  }
-
-  @override
-  String toString() {
-    return "Id: $newsId, Title: $title";
   }
 }

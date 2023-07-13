@@ -46,15 +46,6 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(color: color),
         ),
-        // leading: IconButton(
-        //   icon: Icon(
-        //     IconlyLight.arrowLeft,
-        //     color: color,
-        //   ),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
       ),
       body: ListView(
         children: [

@@ -3,10 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import 'package:newsapp_flutter/provider/dark_theme_provider.dart';
 import 'package:newsapp_flutter/screens/bookmarks_screen.dart';
 import 'package:newsapp_flutter/widgets/vertical_spacing.dart';
-
-import '../provider/dark_theme_provider.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
