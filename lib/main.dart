@@ -12,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  // Retrieves the current app theme from shared preferences
   void getCurrentAppTheme() async {
     themeChangeProvider.setDarkTheme =
         await themeChangeProvider.darkThemePrefs.getTheme();
@@ -36,28 +37,30 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) {
-          return themeChangeProvider;
-        }),
-        ChangeNotifierProvider(
+        // Provider for managing dark theme
+        ChangeNotifierProvider<DarkThemeProvider>(
+          create: (_) => themeChangeProvider,
+        ),
+        // Provider for managing news data
+        ChangeNotifierProvider<NewsProvider>(
           create: (_) => NewsProvider(),
         ),
       ],
-      child: Consumer<DarkThemeProvider>(builder: (
-        context,
-        themeProvider,
-        child,
-      ) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'News App',
-          theme: Styles.themeData(themeProvider.getDarkTheme, context),
-          home: const HomeScreen(),
-          routes: {
-            NewsDetailsScreen.routeName: (context) => const NewsDetailsScreen(),
-          },
-        );
-      }),
+      child: Consumer<DarkThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'News App',
+            // Set the theme based on dark theme status
+            theme: Styles.themeData(themeProvider.getDarkTheme, context),
+            home: const HomeScreen(),
+            routes: {
+              NewsDetailsScreen.routeName: (context) =>
+                  const NewsDetailsScreen(),
+            },
+          );
+        },
+      ),
     );
   }
 }

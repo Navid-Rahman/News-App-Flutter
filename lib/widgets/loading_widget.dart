@@ -56,7 +56,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 20,
-              itemBuilder: (ctx, index) {
+              itemBuilder: (context, index) {
                 return ArticleShimmerEffectWidget(
                     baseShimmerColor: baseShimmerColor,
                     highlightShimmerColor: highlightShimmerColor,
