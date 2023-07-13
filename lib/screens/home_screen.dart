@@ -1,6 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -97,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               icon: const Icon(
-                IconlyLight.search,
+                Icons.search_sharp,
               ),
             )
           ],

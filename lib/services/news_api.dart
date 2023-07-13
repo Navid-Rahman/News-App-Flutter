@@ -11,13 +11,17 @@ class NewsAPiServices {
       {required int page, required String sortBy}) async {
     try {
       // Construct the API endpoint URL
-      var uri = Uri.https(BASEURL, "v2/everything", {
-        "q": "bitcoin",
-        "pageSize": "4",
-        "domains": "techcrunch.com",
-        "page": page.toString(),
-        "sortBy": sortBy
-      });
+      var uri = Uri.https(
+        BASEURL,
+        "v2/everything",
+        {
+          "q": "bitcoin",
+          "pageSize": "4",
+          "domains": "techcrunch.com",
+          "page": page.toString(),
+          "sortBy": sortBy
+        },
+      );
 
       // Make an HTTP GET request to retrieve news data
       var response = await http.get(
@@ -81,11 +85,15 @@ class NewsAPiServices {
   static Future<List<NewsModel>> searchNews({required String query}) async {
     try {
       // Construct the API endpoint URL for searching news based on query
-      var uri = Uri.https(BASEURL, "v2/everything", {
-        "q": query,
-        "pageSize": "10",
-        "domains": "techcrunch.com",
-      });
+      var uri = Uri.https(
+        BASEURL,
+        "v2/everything",
+        {
+          "q": query,
+          "pageSize": "10",
+          "domains": "techcrunch.com",
+        },
+      );
 
       // Make an HTTP GET request to search news
       var response = await http.get(

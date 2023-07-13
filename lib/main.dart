@@ -8,11 +8,11 @@ import 'package:newsapp_flutter/screens/news_details_screen.dart';
 import 'package:newsapp_flutter/utils/theme_data.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -55,8 +55,9 @@ class _MyAppState extends State<MyApp> {
             theme: Styles.themeData(themeProvider.getDarkTheme, context),
             home: const HomeScreen(),
             routes: {
-              NewsDetailsScreen.routeName: (context) =>
-                  const NewsDetailsScreen(),
+              NewsDetailsScreen.routeName: (context) {
+                return const NewsDetailsScreen();
+              },
             },
           );
         },

@@ -141,7 +141,7 @@ class _NewsDetailWebviewState extends State<NewsDetailWebview> {
             ),
             iconTheme: IconThemeData(color: color),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            elevation: 0,
+            elevation: 1,
             centerTitle: true,
             title: Text(
               widget.url,

@@ -7,7 +7,9 @@ class DarkThemeProvider with ChangeNotifier {
   bool _darkTheme = false;
 
   // Getter for the dark theme status
-  bool get getDarkTheme => _darkTheme;
+  bool get getDarkTheme {
+    return _darkTheme;
+  }
 
   // Setter for the dark theme status
   // value: true to enable dark theme, false to disable it
