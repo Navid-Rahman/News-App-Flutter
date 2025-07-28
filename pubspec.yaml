@@ -1,5 +1,5 @@
 name: newsapp_flutter
-description: A new Flutter project.
+description: A comprehensive Flutter news application with dark/light themes, article search, bookmarks, and real-time news integration using NewsAPI. Features Material Design UI, Provider state management, and smooth animations for an excellent user experience.
 publish_to: "none"
 
 version: 1.0.0+1
